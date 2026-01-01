@@ -1,5 +1,5 @@
 import React, {useRef}  from 'react'
-
+import { socials } from '../constants/index'
 const Navbar = () => {
     const navRef = useRef<HTMLDivElement>(null);
     const linksRef = useRef<HTMLDivElement[]>([]);
@@ -29,8 +29,14 @@ const Navbar = () => {
             <div className='font-light'>
                 <p className="tracking-wider text-white/50">Social Media</p>
                 <div className="flex flex-col flex-wrap md:flex-row gap-x-2">
-                    {/* Add social media links here */}
-                </div>
+                   {socials.map((social, index) => (
+                    <a href={social.href} key={index} className="text-sm leading-loose tracking-widest uppercase hover:text-white transition-colors duration-300">
+                        {"{ "}
+                        {social.name}
+                        {" }"}
+                    </a>
+                   ))}
+                </div>  
             </div>
         </div>
     </nav>
