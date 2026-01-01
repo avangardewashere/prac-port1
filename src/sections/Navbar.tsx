@@ -1,14 +1,70 @@
-import React, {useRef}  from 'react'
+import React, {useRef, useState}  from 'react'
 import { socials } from '../constants/index'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 const Navbar = () => {
     const navRef = useRef<HTMLDivElement>(null);
     const linksRef = useRef<HTMLDivElement[]>([]);
     const contactRef = useRef<HTMLDivElement>(null);
     const topLineRef = useRef<HTMLSpanElement>(null);
     const bottomLineRef = useRef<HTMLSpanElement>(null);
+    const tl = useRef<GSAPTimeline>(null);
+    const iconTl = useRef<GSAPTimeline>(null);
+    const [isOpen, setIsOpen] = useState(false);
+
+    useGSAP(() => {
+        gsap.set(navRef.current, {xPercent: 100});
+        gsap.set([linksRef.current, contactRef.current], {autoAlpha:0,x:-20});
+        tl.current = gsap.timeline({paused:true})
+        .to(navRef.current, {
+            xPercent:0,
+            duration:1,
+            ease: "power3.out",
+        })
+        .to(linksRef.current,{
+            autoAlpha:1,
+            x:0,
+            stagger:0.1,
+            duration:0.5,
+            ease:"power2.out"
+        },"<").to(contactRef.current,{
+            autoAlpha:1,
+            x:0,
+            duration:0.5,
+            ease:"power2.out"
+        },"<+0.2");;
+
+        iconTl.current = gsap.timeline({
+            paused:true
+        })
+        .to(topLineRef,{
+            rotate:45,
+            y:3.3,
+            duration:0.3,
+            ease:"power2.inOut",
+        })
+        .to(bottomLineRef.current, {
+            rotate:-45,
+            y:-3.3,
+            duration:0.3,
+            ease:"power2.inOut",
+        },"<") 
+    }, [topLineRef, bottomLineRef]);
+
+    const toggleMenu = () => {
+        console.log("toggleMenu");
+        if(isOpen){
+            tl.current?.reverse();
+            iconTl.current?.reverse();
+        } else {
+                tl.current?.play();
+                iconTl.current?.play();
+            }
+            setIsOpen(!isOpen);
+    }
   return (
     <>
-    <nav ref={navRef} className="fixed z-50 flex flex-col justify-between w-full bg-black h-full px-10 uppercase text-white/80 py-28 gap-y-10 md:w-1/2 md:left-1/2">
+    <nav ref={navRef} className="fixed z-50 flex flex-col  justify-between w-full bg-black h-full px-10 uppercase text-white/80 py-28 gap-y-10 md:w-1/2 md:left-1/2" >
         <div className="flex flex-col text-5xl gap-y-2 md-text-6xl lg:text-8xl">
             {['Home', 'Services', 'About', 'Work', 'Contact'].map((section, index) => (
                 <div
@@ -43,7 +99,7 @@ const Navbar = () => {
             </div>
         </div>
     </nav>
-    <div className='fixed z-50 flex flex-col items-center gap-1 transition-all duration-300 bg-black rounded-full cursor-pointer w-14 h-14 md:w-20 md:h-20 top-4 right-10'>
+    <div className='fixed z-50 flex flex-col items-center justify-center gap-1 transition-all duration-300 bg-black rounded-full cursor-pointer w-14 h-14 md:w-20 md:h-20 top-4 right-10' onClick={toggleMenu}>
         <span ref={topLineRef} className="block w-8 h-0.5 bg-white rounded-full origin-center">
 
         </span>
