@@ -18,7 +18,18 @@ const Hero = () => {
                     </div>
 
                 </div>
+                <div className="relative px-10 text-black">
+                    <div className="absolute inset-x-0 border-t-2">
+                        <div className="py-12 sm:py-16 text-end">
+                            <p className="font-light uppercase value-text-responsive">
+                                I help growing brand and startups to gain an unfair advantage through premium results driven webs/apps
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     )
 }
+
+export default Hero;
