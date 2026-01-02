@@ -1,6 +1,7 @@
-import React, {useRef, useState}  from 'react'
+import React, {useEffect, useRef, useState}  from 'react'
 import { socials } from '../constants/index'
 import { useGSAP } from '@gsap/react'
+import { Link } from 'react-scroll'
 import gsap from 'gsap'
 const Navbar = () => {
     const navRef = useRef<HTMLDivElement>(null);
@@ -11,6 +12,7 @@ const Navbar = () => {
     const tl = useRef<GSAPTimeline>(null);
     const iconTl = useRef<GSAPTimeline>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [showBurger, setShowBurger] = useState(true);
 
     useGSAP(() => {
         gsap.set(navRef.current, {xPercent: 100});
@@ -51,6 +53,22 @@ const Navbar = () => {
         },"<") 
     }, [topLineRef, bottomLineRef]);
 
+    useEffect(() => {
+        let lastScrollY = window.scrollY;
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            // Hide when scrolling down, show when scrolling up
+            setShowBurger(currentScrollY < lastScrollY || currentScrollY < 10);
+            lastScrollY = currentScrollY;
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
+    
     const toggleMenu = () => {
         console.log("toggleMenu");
         if(isOpen){
@@ -75,9 +93,14 @@ const Navbar = () => {
                         }
                     }}
                 >
-                    <a href="" className="transition-all duration-300 cursor-pointer hover:text-white">
+                    <Link href="" className="transition-all duration-300 cursor-pointer hover:text-white"
+                    to={`${section.toLowerCase()}`}
+                    smooth
+                    offset={0}
+                    duration={2000}
+                    >
                         {section}
-                    </a>
+                    </Link>
                 </div>
             ))}
         </div><div ref={contactRef} className="flex flex-col flex-wrap justify-between gap-8 md:flex-row">
@@ -99,7 +122,13 @@ const Navbar = () => {
             </div>
         </div>
     </nav>
-    <div className='fixed z-50 flex flex-col items-center justify-center gap-1 transition-all duration-300 bg-black rounded-full cursor-pointer w-14 h-14 md:w-20 md:h-20 top-4 right-10' onClick={toggleMenu}>
+    <div 
+        className='fixed z-50 flex flex-col items-center justify-center gap-1 transition-all duration-300 bg-black rounded-full cursor-pointer w-14 h-14 md:w-20 md:h-20 top-4 right-10' 
+        onClick={toggleMenu}
+        style={{
+            clipPath: showBurger ? "circle(50% at 50% 50%)" : "circle(0% at 50% 50%)"
+        }}
+    >
         <span ref={topLineRef} className="block w-8 h-0.5 bg-white rounded-full origin-center">
 
         </span>
