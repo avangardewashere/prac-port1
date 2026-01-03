@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
-
+import { Group, Mesh } from 'three';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 interface ModelProps {
   position?: [number, number, number] | [number, number] | number;
   rotation?: [number, number, number] | [number, number] | number;
@@ -9,17 +11,59 @@ interface ModelProps {
 }
 
 export function Model(props: ModelProps) {
+  const shapeContainer = useRef<Group>(null);
+  const spheresContainer = useRef<Group>(null);
+  const ringContainer = useRef<Mesh>(null);
   const { nodes, materials } = useGLTF('/models/Planet.glb')
+
+  useGSAP(()=>{
+    const tl = gsap.timeline();
+    tl.from(shapeContainer.current?.position,{
+      y:5,
+      duration:3,
+      ease:"circ.out",
+    })
+    tl.from(
+      spheresContainer.current?.rotation, {
+        x:0,
+        y:Math.PI,
+        z:-Math.PI,
+        duration:10,
+        ease:"power1.inOut",
+
+      }, "-=25%"
+    );
+    tl.from(ringContainer.current?.rotation, {
+      x:0.8,
+      y:0,
+      z:0,
+      duration:10,
+      ease:"power1.inOut",
+    }, "<");
+  },[])
+
   return (
-    <group {...props} dispose={null}>
+    <group ref={shapeContainer} {...props} dispose={null}>
+      <group ref={spheresContainer}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere.geometry}
+          material={materials['Material.002']}
+          rotation={[0, 0, 0.741]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere2.geometry}
+          material={materials['Material.001']}
+          position={[0.647, 1.03, -0.724]}
+          rotation={[0, 0, 0.741]}
+          scale={0.223}
+        />
+      </group>
       <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Sphere.geometry}
-        material={materials['Material.002']}
-        rotation={[0, 0, 0.741]}
-      />
-      <mesh
+      ref={ringContainer}
         castShadow
         receiveShadow
         geometry={nodes.Ring.geometry}
@@ -27,15 +71,7 @@ export function Model(props: ModelProps) {
         rotation={[-0.124, 0.123, -0.778]}
         scale={2}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Sphere2.geometry}
-        material={materials['Material.001']}
-        position={[0.647, 1.03, -0.724]}
-        rotation={[0, 0, 0.741]}
-        scale={0.223}
-      />
+
     </group>
   )
 }
