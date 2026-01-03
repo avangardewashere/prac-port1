@@ -3,6 +3,7 @@ import { AnimatedTextLines } from '../components/AnimatedTextLines'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Canvas } from '@react-three/fiber';
+import { Model as Planet } from '../components/Planet';
 const Hero = () => {
     const contextRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
@@ -55,7 +56,10 @@ const Hero = () => {
                     fov:17.5,
                     near:1,
                     far:20,
-                }}></Canvas>
+                }}>
+                    <ambientLight intensity={0.5} /> 
+                    <Planet />
+                </Canvas>
             </figure>
         </section>
     )
