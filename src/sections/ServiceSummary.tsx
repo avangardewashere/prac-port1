@@ -16,7 +16,7 @@ const ServiceSummary = () => {
                <div className="w-10 h-1 md:w-23 bg-gold"/>
                <p className="italic">Scalability</p>
             </div>
-            <div id="title-service-4">
+            <div id="title-service-4 -translate-x-48">
                 <p>Databases</p>
             </div>
         </section>
