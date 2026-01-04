@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { AnimatedTextLines } from './AnimatedTextLines'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-const AnimatedHeader = () => {
+const AnimatedHeader = ({subtitle,title,text,TextColor}) => {
     const contextRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const aboutText = `I help growing brand and startups \n to gain an unfair advantage \n through premium results driven webs/apps`
@@ -28,7 +28,7 @@ const AnimatedHeader = () => {
             className='flex flex-col justify-center gap-12 pt-16 sm:gap-16'
         >
             <p className="text-sm font-light tracking-[0.5rem] uppercase px-10 text-black">
-                404 No Bugs Found
+                {subtitle}
             </p>
             <div className='px-10'>
                 <h1 className="flex flex-col flex-wrap gap-12 text-black uppercase banner-text-responsive sm:gap-16 md:block">Avel Panaligan</h1>
