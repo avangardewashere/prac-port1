@@ -1,11 +1,27 @@
 import { useRef } from 'react'
 import { AnimatedTextLines } from './AnimatedTextLines'
-
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 const AnimatedHeader = () => {
     const contextRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const aboutText = `I help growing brand and startups \n to gain an unfair advantage \n through premium results driven webs/apps`
-  return (
+    useGSAP(() => {
+        const tl = gsap.timeline();
+        tl.from(contextRef.current, {
+            y: "50vh",
+            duration: 1,
+            ease: "circ.out",
+        });
+        tl.from(headerRef.current, {
+            opacity: 0,
+            duration: 1,
+            y: "200",
+            ease: "circ.out",
+        }, "<+0.2")
+    }, []) 
+
+    return (
     <div ref={contextRef}  >
     <div style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}>
         <div ref={headerRef}
