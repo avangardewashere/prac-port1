@@ -2,12 +2,24 @@ import { useRef } from 'react'
 import { AnimatedTextLines } from './AnimatedTextLines'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-const AnimatedHeader = ({subtitle,title,text,TextColor}) => {
+
+interface AnimatedHeaderProps {
+    subtitle?: string;
+    title?: string;
+    text?: string;
+    TextColor?: string;
+    withScrollTrigger?: boolean;
+}
+
+const AnimatedHeader = ({subtitle, title, text, TextColor, withScrollTrigger = false}: AnimatedHeaderProps) => {
     const contextRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
-    const aboutText = `I help growing brand and startups \n to gain an unfair advantage \n through premium results driven webs/apps`
     useGSAP(() => {
-        const tl = gsap.timeline();
+        const tl = gsap.timeline({
+            scrollTrigger:withScrollTrigger ? {
+                trigger: contextRef.current} 
+                : undefined 
+        });
         tl.from(contextRef.current, {
             y: "50vh",
             duration: 1,
@@ -27,19 +39,19 @@ const AnimatedHeader = ({subtitle,title,text,TextColor}) => {
         <div ref={headerRef}
             className='flex flex-col justify-center gap-12 pt-16 sm:gap-16'
         >
-            <p className="text-sm font-light tracking-[0.5rem] uppercase px-10 text-black">
+            <p className={`text-sm font-light tracking-[0.5rem] uppercase px-10 ${TextColor}`}>
                 {subtitle}
             </p>
             <div className='px-10'>
-                <h1 className="flex flex-col flex-wrap gap-12 text-black uppercase banner-text-responsive sm:gap-16 md:block">Avel Panaligan</h1>
+                <h1 className={`flex flex-col flex-wrap gap-12 ${TextColor} uppercase banner-text-responsive sm:gap-16 md:block`}>{title}</h1>
             </div>
         </div>
 
     </div>
-    <div className="relative px-10 text-black">
+    <div className={`relative px-10 ${TextColor}`}>
         <div className="absolute inset-x-0 border-t-2">
             <div className="py-12 sm:py-16 text-end">
-                <AnimatedTextLines className="font-light uppercase value-text-responsive" text={aboutText} />
+                <AnimatedTextLines className="font-light uppercase value-text-responsive" text={text || ""} />
             </div>
         </div>
     </div>
