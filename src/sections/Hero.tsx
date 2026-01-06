@@ -8,10 +8,11 @@ import { Environment, Float, Lightformer } from '@react-three/drei';
 import { useMediaQuery } from 'react-responsive';
 import AnimatedHeader from '../components/AnimatedHeader';
 const Hero = () => {
-    const isMobile = useMediaQuery({maxWidth: 853});
+    const isMobile = useMediaQuery({maxWidth: 853}); 
+    const aboutText = `I help growing brand and startups \n to gain an unfair advantage \n through premium results driven webs/apps`
     return (
         <section id="home" className='flex flex-col justify-end min-h-screen'>
-        <AnimatedHeader />
+        <AnimatedHeader subtitle="404 No Bugs Found" title="Avel Panaligan" text={aboutText} TextColor="text-black" />
             <figure className="absolute inset-0 -z-"
                 style={{ width: "100vw", height: "100vh" }}>
                 <Canvas shadows camera={{
