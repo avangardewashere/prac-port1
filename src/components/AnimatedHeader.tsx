@@ -8,13 +8,18 @@ interface AnimatedHeaderProps {
     title?: string;
     text?: string;
     TextColor?: string;
+    withScrollTrigger?: boolean;
 }
 
-const AnimatedHeader = ({subtitle, title, text, TextColor}: AnimatedHeaderProps) => {
+const AnimatedHeader = ({subtitle, title, text, TextColor, withScrollTrigger = false}: AnimatedHeaderProps) => {
     const contextRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     useGSAP(() => {
-        const tl = gsap.timeline();
+        const tl = gsap.timeline({
+            scrollTrigger:withScrollTrigger ? {
+                trigger: contextRef.current} 
+                : undefined 
+        });
         tl.from(contextRef.current, {
             y: "50vh",
             duration: 1,
