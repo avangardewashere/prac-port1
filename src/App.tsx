@@ -4,6 +4,7 @@ import Hero from './sections/Hero'
 import ServiceSummary from './sections/ServiceSummary'
 import Services from './sections/Services'
 import ReactLenis from 'lenis/react'
+import About from './sections/About'
 function App() {
   return (
     <ReactLenis className="relative w-screen min-h-screen overflow-x-auto ">
@@ -11,6 +12,7 @@ function App() {
       <Hero/>
       <ServiceSummary/>
       <Services/>
+      <About/>
       <section id='home' className='min-h-screen '/>
     </ReactLenis>
   )
