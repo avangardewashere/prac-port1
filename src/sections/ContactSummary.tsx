@@ -1,7 +1,14 @@
 import {useRef} from "react";
-
+import Marquee from "../components/Marquee";
 const ContactSummary = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const items = [
+        "Innocation",
+        "Precision",
+        "Trust",
+        "Collaboration",
+        "Excellence",
+    ]
 
     return (
         <section ref={containerRef}
@@ -18,6 +25,9 @@ const ContactSummary = () => {
                     web application 
                     <span className="text-gold">togoether</span>
                 </p>
+
+                {/* Marquee */}
+                <Marquee items={items} />
             </div>
         </section>
     )
