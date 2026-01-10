@@ -135,8 +135,8 @@ const handleMouseLeave = () => {
                         {/* frameworks */}
                         <div className="flex px-10 text-xs leading-loose uppercase transition-all duration-599 md:text-sm gap-x-5 md:group-hover:px-12">
                             {
-                                project.frameworks.map((framework)=> (
-                                    <p className="text-black transition-colors duration-500 md:group-hover text-sm font-medium md:group-hover:text-white">{framework.name}</p>
+                                project.frameworks.map((framework) => (
+                                    <p key={framework.id} className="text-black transition-colors duration-500 md:group-hover text-sm font-medium md:group-hover:text-white">{framework.name}</p>
                                 ))
                             }
                         </div>
