@@ -1,8 +1,35 @@
 import AnimatedHeader from "../components/AnimatedHeader"
 import { socials } from "../constants";
+import Marquee from "../components/Marquee";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const Contact = () => {
     const text = `Got a question? Need a custom solution? \n Let's talk and discuss your project!`
+
+    const items = [
+        "Just Image, I'll code it",
+        "Just Image, I'll code it",
+        "Just Image, I'll code it",
+        "Just Image, I'll code it",
+        "Just Image, I'll code it",
+        "Just Image, I'll code it",
+    ]
+
+    useGSAP(()=>{
+        gsap.from(".social-link",{
+            y:100,
+            opacity:0,
+            delay:0.5,
+            duration:1,
+            stagger:0.3,
+            ease:"back.out",
+            scrollTrigger:{
+                trigger:".social-link",
+            }
+        })
+    },[])
+    
     return (
         <section id="contact"
             className="flex flex-col justify-between min-h-screen bg-black">
@@ -45,6 +72,7 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
+            <Marquee items={items} className="text-white bg-black"/>
         </section>
     )
 }
