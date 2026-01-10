@@ -30,7 +30,7 @@ interface ExtendedTimeline extends gsap.core.Timeline {
     times?: number[];
 }
 
-const Marquee = ({ items, className = "text-white bg-black", iconClassName = '', reverse = false }: MarqueeProps) => {
+const Marquee = ({ items, className = "text-white bg-black", iconClassName = '', reverse = false , icon="mdi:star-four-points"}: MarqueeProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const itemsRef = useRef<HTMLSpanElement[]>([]);
     
@@ -140,7 +140,7 @@ const Marquee = ({ items, className = "text-white bg-black", iconClassName = '',
           const observer = Observer.create({
             onChangeY(self) {
               let factor = 2.5;
-              if (self.deltaY < 0) {
+              if ((!reverse && self.deltaY < 0) || (reverse && self.deltaY > 0)) {
                 factor *= -1;
               } 
               gsap.timeline({
@@ -169,7 +169,7 @@ const Marquee = ({ items, className = "text-white bg-black", iconClassName = '',
                         itemsRef.current[index] = el;
                     }
                 }} className="flex items-center px-16 gap-x-32">
-                    {text} <Icon icon="mdi:arrow-right" className={iconClassName} />
+                    {text} <Icon icon={icon || "mdi:arrow-right"} className={iconClassName} />
                 </span>
             ))}
         </div>
